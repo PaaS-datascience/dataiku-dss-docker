@@ -11,6 +11,7 @@ services:
     container_name: dss
     volumes:
       - ./data:/home/dataiku/dss
+      - ./jdbc:/home/dataiku/dss/lib/jdbc
     ports:
       - "10000:10000"
     

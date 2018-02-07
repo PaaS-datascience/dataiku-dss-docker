@@ -24,3 +24,7 @@ network:
 
 up: network
 	docker-compose up -d
+
+dss-restart:
+	docker-compose down
+	docker-compose up -d
