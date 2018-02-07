@@ -1,0 +1,16 @@
+version: '2'
+
+networks:
+  default:
+    external:
+      name: latelier
+
+services:
+  dss:
+    image: dataiku/dss
+    container_name: dss
+    volumes:
+      - ./data:/home/dataiku/dss
+    ports:
+      - "10000:10000"
+    
