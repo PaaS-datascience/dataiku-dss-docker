@@ -12,6 +12,7 @@ services:
     volumes:
       - ./data:/home/dataiku/dss
       - ./jdbc:/home/dataiku/dss/lib/jdbc
+    mem_limit: 12g
     ports:
       - "10000:10000"
     
