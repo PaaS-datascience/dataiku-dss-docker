@@ -3,7 +3,7 @@ version: '2'
 networks:
   default:
     external:
-      name: latelier
+      name: ${COMPOSE_PROJECT_NAME}
 
 services:
   dss:
@@ -11,7 +11,6 @@ services:
     container_name: dss
     volumes:
       - ./data:/home/dataiku/dss
-      - ./jdbc:/home/dataiku/dss/lib/jdbc
     ports:
-      - "10000:10000"
+      - ${PORT}:10000
     

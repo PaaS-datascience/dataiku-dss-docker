@@ -1,4 +1,17 @@
+##############################################
+# WARNING : THIS FILE SHOULDN'T BE TOUCHED   #
+#    FOR ENVIRONNEMENT CONFIGURATION         #
+# CONFIGURABLE VARIABLES SHOULD BE OVERRIDED #
+# IN THE 'artifacts' FILE, AS NOT COMMITTED  #
+##############################################
+
 EDITOR=vim
+
+export PORT=10000
+export COMPOSE_PROJECT_NAME=latelier
+
+dummy               := $(shell touch artifacts)
+include ./artifacts
 
 install-prerequisites:
 ifeq ("$(wildcard /usr/bin/docker)","")
@@ -19,12 +32,18 @@ ifeq ("$(wildcard /usr/bin/docker)","")
 		sudo apt-get install -y docker-ce
 endif
 
+vertica:
+ifeq ("$(wildcard data/lib/jdbc/vertica-jdbc-9.0.1-0.jar)","")
+	@sudo cp jdbc/vertica-jdbc-9.0.1-0.jar data/lib/jdbc/
+endif
+
 network: 
 	@docker network create latelier 2> /dev/null; true
 
-up: network
+down:
+	docker-compose down
+
+up: network 
 	docker-compose up -d
 
-dss-restart:
-	docker-compose down
-	docker-compose up -d
+restart: down up
