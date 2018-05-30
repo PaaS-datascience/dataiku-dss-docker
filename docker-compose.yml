@@ -12,7 +12,8 @@ services:
     volumes:
       - ./data:/home/dataiku/dss
       - ./jdbc:/home/dataiku/dss/lib/jdbc
+      - ./requirements.txt:/home/dataiku/requirements.txt
     mem_limit: 12g
     ports:
       - "10000:10000"
-    
+    command: /bin/pip install --proxy `echo $http_proxy | sed 's/\(\S\S*\)/--proxy \1/'` -r requirements.txt 
