@@ -16,4 +16,7 @@ services:
     mem_limit: 12g
     ports:
       - "10000:10000"
-    command: /bin/pip install --proxy `echo $http_proxy | sed 's/\(\S\S*\)/--proxy \1/'` -r requirements.txt 
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+#    command: /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt 

@@ -26,6 +26,9 @@ endif
 network: 
 	@docker network create latelier 2> /dev/null; true
 
+requirements: up
+	docker exec -it dss /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt
+
 up: network
 	docker-compose up -d
 
