@@ -3,7 +3,7 @@ version: '2'
 networks:
   default:
     external:
-      name: latelier
+      name: ${COMPOSE_PROJECT_NAME}
 
 services:
   dss:
@@ -14,9 +14,9 @@ services:
       - ./jdbc:/home/dataiku/dss/lib/jdbc
       - ./requirements.txt:/home/dataiku/requirements.txt
     mem_limit: 12g
-    ports:
-      - "10000:10000"
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
-#    command: /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt 
+    ports:
+      - ${PORT}:10000
+    
