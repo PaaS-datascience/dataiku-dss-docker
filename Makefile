@@ -11,6 +11,7 @@ export PORT=10000
 export COMPOSE_PROJECT_NAME=latelier
 
 dummy               := $(shell touch artifacts)
+dummy               := $(shell touch docker-compose-custom.yml)
 include ./artifacts
 
 install-prerequisites:
@@ -44,6 +45,6 @@ down:
 	docker-compose down
 
 up: network 
-	docker-compose up -d
+	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up -d
 
 restart: down up
