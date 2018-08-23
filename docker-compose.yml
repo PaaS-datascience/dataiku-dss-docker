@@ -11,6 +11,12 @@ services:
     container_name: dss
     volumes:
       - ./data:/home/dataiku/dss
+      - ./jdbc:/home/dataiku/dss/lib/jdbc
+      - ./requirements.txt:/home/dataiku/requirements.txt
+    mem_limit: 12g
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
     ports:
       - ${PORT}:10000
     
