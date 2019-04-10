@@ -1,2 +1,4 @@
 docker-compose-custom.yml
 artifacts
+data
+jdbc
