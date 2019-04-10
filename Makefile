@@ -50,6 +50,8 @@ requirements: up
 
 up: network 
 	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up -d
+	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get update
+	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
 
 down:
 	docker-compose down

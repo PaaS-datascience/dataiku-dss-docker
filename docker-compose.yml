@@ -8,7 +8,7 @@ networks:
 services:
   dss:
     image: dataiku/dss
-    container_name: dss
+    container_name: ${COMPOSE_PROJECT_NAME}_dss
     volumes:
       - ./data:/home/dataiku/dss
       - ./jdbc:/home/dataiku/dss/lib/jdbc
