@@ -11,6 +11,8 @@ include /etc/os-release
 
 export PORT=10000
 export COMPOSE_PROJECT_NAME=latelier
+export COMPOSE=docker-compose -f docker-compose.yml -f docker-compose-custom.yml
+
 
 dummy               := $(shell touch artifacts)
 dummy               := $(shell touch docker-compose-custom.yml)
@@ -49,12 +51,21 @@ requirements: up
 	docker exec -it dss /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt
 
 up: network 
-	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up -d
-	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get update
-	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
+	$(COMPOSE) up -d
 
 down:
-	docker-compose down
+	$(COMPOSE) down
+
+stop:
+	$(COMPOSE) stop
 
 restart: down up
 
+clean: down
+	sudo rm -rf data jdbc
+
+logs:
+	$(COMPOSE) logs --tail 50 -f dss
+
+exec:
+	$(COMPOSE) exec dss bash
