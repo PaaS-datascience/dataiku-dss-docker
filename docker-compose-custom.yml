@@ -2,3 +2,6 @@ version: '2'
 
 services:
   dss:
+    volumes:
+      - /data:/data
+      - /vgdata:/vgdata

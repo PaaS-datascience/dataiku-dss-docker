@@ -11,11 +11,13 @@ include /etc/os-release
 
 export PORT=10000
 export COMPOSE_PROJECT_NAME=latelier
-export COMPOSE=docker-compose -f docker-compose.yml -f docker-compose-custom.yml
-
+ifneq ("$(wildcard ./docker-compose-custom.yml)","")
+	COMPOSE=docker-compose -f docker-compose.yml -f docker-compose-custom.yml
+else
+	COMPOSE=docker-compose -f docker-compose.yml
+endif
 
 dummy               := $(shell touch artifacts)
-dummy               := $(shell touch docker-compose-custom.yml)
 include ./artifacts
 
 install-prerequisites:
