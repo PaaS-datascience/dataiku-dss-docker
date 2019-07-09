@@ -13,7 +13,6 @@ export PORT=10000
 export COMPOSE_PROJECT_NAME=latelier
 
 dummy               := $(shell touch artifacts)
-dummy               := $(shell touch docker-compose-custom.yml)
 include ./artifacts
 
 install-prerequisites:
@@ -48,8 +47,12 @@ network:
 requirements: up
 	docker exec -it dss /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt
 
-up: network 
+up: network
+ifeq ("$(wildcard docker-compose-custom.yml)","")
+	docker-compose up -d
+else
 	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up -d
+endif
 	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get update
 	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
 
