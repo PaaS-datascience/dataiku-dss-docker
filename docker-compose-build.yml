@@ -1,0 +1,6 @@
+version: '3.5'
+services:
+  build_dss:
+    build:
+      context: docker
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
