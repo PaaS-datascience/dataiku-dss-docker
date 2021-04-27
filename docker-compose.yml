@@ -32,7 +32,7 @@ services:
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
       # add custom license, change install_size
-      - DSS_INSTALLER_ARGS=${DESIGN_DSS_INSTALLER_ARGS}
+      - DSS_INSTALLER_ARGS=${DESIGN_DSS_INSTALLER_ARGS:- -t design -s auto}
     ports:
       - ${DESIGN_PORT:-10000}:10000
 
@@ -55,7 +55,7 @@ services:
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
       # add custom license, change install_size
-      - DSS_INSTALLER_ARGS=${AUTOMATION_DSS_INSTALLER_ARGS}
+      - DSS_INSTALLER_ARGS=${AUTOMATION_DSS_INSTALLER_ARGS:- -t automation -s auto}
     ports:
       - ${AUTOMATION_PORT:-10001}:10000
 
@@ -77,7 +77,8 @@ services:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
-      - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS}
+      # add custom license, change install_size
+      - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS:- -t api -s auto }
     ports:
       - ${API_PORT:-10002}:10000
 
@@ -99,6 +100,7 @@ services:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
-      - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS}
+      # add custom license, change install_size
+      - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS:- -t apideployer -s auto}
     ports:
       - ${APIDEPLOYER_PORT:-10003}:10000
