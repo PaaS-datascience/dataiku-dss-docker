@@ -7,27 +7,23 @@ networks:
       com.docker.network.driver.mtu: 1450
 
 services:
-  build_dss:
-    build:
-      context: docker
-    image: my_dataiku_dss:${DSS_VERSION}
-
-# design node
+# To build custom dataiku_dss image, see docker-compose-build.yml file
+#  build_dss:
+#    build:
+#      context: docker
+#    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
+#
 
   design:
-    build:
-      context: docker
-      #image: dataiku/dss:${DSS_VERSION}
-    image: my_dataiku_dss:${DSS_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_dss_design
     networks:
       - dss-network
     volumes:
        - ${DESIGN_DATA_DIR:-./data-design}:/home/dataiku/dss
        # add custom license
-       - ./license.json:/home/dataiku/license.json
+       #- ./license.json:/home/dataiku/license.json
     environment:
-      # 'design', 'automation', 'api' or 'apideployer
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
@@ -36,20 +32,15 @@ services:
     ports:
       - ${DESIGN_PORT:-10000}:10000
 
-# automation node
-
   automation:
-    build:
-      context: docker
-#    image: dataiku/dss:${DSS_VERSION}
-    image: my_dataiku_dss:${DSS_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_dss_automation
     networks:
       - dss-network
     volumes:
        - ${AUTOMATION_DATA_DIR:-./data-automation}:/home/dataiku/dss
        # add custom license
-       - ./license.json:/home/dataiku/license.json
+       #- ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -59,20 +50,15 @@ services:
     ports:
       - ${AUTOMATION_PORT:-10001}:10000
 
-# api node
-#
   api:
-    build:
-      context: docker
-#    image: dataiku/dss:${DSS_VERSION}
-    image: my_dataiku_dss:${DSS_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_dss_api
     networks:
       - dss-network
     volumes:
        - ${API_DATA_DIR:-./data-api}:/home/dataiku/dss
        # add custom license
-       - ./license.json:/home/dataiku/license.json
+       #- ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -82,13 +68,8 @@ services:
     ports:
       - ${API_PORT:-10002}:10000
 
-# apideployer node
-
   apideployer:
-    build:
-      context: docker
-#    image: dataiku/dss:${DSS_VERSION}
-    image: my_dataiku_dss:${DSS_VERSION}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_dss_apideployer
     networks:
       - dss-network

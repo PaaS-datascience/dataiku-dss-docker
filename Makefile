@@ -104,9 +104,9 @@ clean-data-dir-api:
 clean-data-dir-apideployer:
 	if [ -d "${APIDEPLOYER_DATA_DIR}" ] ; then rm -rf ${APIDEPLOYER_DATA_DIR} ; fi
 
-# build custome dss image with custom args installer
+# build custom dss image with custom args installer
 build:
-	docker-compose -f docker-compose.yml  build --force-rm --no-cache build_dss
+	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
 
 # default start all services
 up: pre-up up-all
