@@ -111,6 +111,8 @@ clean-data-dir-apideployer:
 # build custom dss image with custom args installer
 build:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
+build-debian:
+	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss_debian
 
 # default start all services
 up: pre-up up-all
