@@ -1,0 +1,82 @@
+FROM debian:buster
+ARG dssVersion
+
+ENV DSS_VERSION="$dssVersion" \
+    DSS_DATADIR="/home/dataiku/dss" \
+    DSS_PORT=10000
+
+RUN useradd dataiku -G sudo \
+    && mkdir -p /home/dataiku ${DSS_DATADIR} \
+    && chown -Rh dataiku:dataiku /home/dataiku ${DSS_DATADIR}
+
+ARG MIRROR_DEBIAN
+ARG PYPI_URL
+ARG PYPI_HOST
+
+# System dependencies
+# Package custom
+# https://doc.dataiku.com/dss/latest/installation/custom/initial-install.html#debian-ubuntu-linux-distributions
+ARG DEBIAN_FRONTEND=noninteractive
+ARG PACKAGE_CUSTOM="locales locales-all \
+     acl curl git libexpat1 libncurses5 nginx unzip zip \
+     default-jre-headless \
+     python2.7 libpython2.7 libfreetype6 libgomp1 \
+     python2.7-dev \
+     r-base-dev libicu-dev libcurl4-openssl-dev libssl-dev libxml2-dev pkg-config"
+
+RUN echo "$http_proxy $no_proxy" && set -x && [ -z "$MIRROR_DEBIAN" ] || \
+    sed -i.orig -e "s|http://deb.debian.org/debian|$MIRROR_DEBIAN/debian10|g ; s|http://security.debian.org/debian-security|$MIRROR_DEBIAN/debian10-security|g" /etc/apt/sources.list ; cat /etc/apt/sources.list /etc/apt/sources.list.orig ; \
+    apt-get -q update \
+    && apt-get install -qy --no-install-recommends sudo curl \
+        apt-transport-https \
+        ca-certificates \
+        curl \
+        gnupg2 \
+        software-properties-common \
+        jq libltdl7 \
+    && echo "+ Add R repo" \
+    && curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE19F5F87128899B192B1A2C2AD5F960A256A04AF"  | apt-key add - \
+    && add-apt-repository 'deb https://cloud.r-project.org/bin/linux/debian buster-cran35/' \
+    && apt-get -q update \
+    && echo "+ Install requirements" \
+    && apt-get install -qy --no-install-recommends $PACKAGE_CUSTOM \
+    && rm -rf /var/lib/apt/lists/* \
+    &&  echo "+ DEBUG add dataiku sudo" \
+    &&  echo "dataiku    ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers 
+
+# Download and extract DSS kit
+RUN DSSKIT="dataiku-dss-$DSS_VERSION" \
+    && cd /home/dataiku \
+    && echo "+ Downloading kit" \
+    && curl -OsS "https://cdn.downloads.dataiku.com/public/studio/$DSS_VERSION/$DSSKIT.tar.gz" \
+    && echo "+ Extracting kit" \
+    && tar xf "$DSSKIT.tar.gz" \
+    && rm "$DSSKIT.tar.gz" \
+    && "$DSSKIT"/scripts/install/installdir-postinstall.sh "$DSSKIT" \
+    && chown -Rh dataiku:dataiku "$DSSKIT"
+
+# Install required R packages
+RUN mkdir -p /usr/local/lib/R/site-library \
+    && R --slave --no-restore \
+        -e "install.packages( \
+            c('httr', 'RJSONIO', 'dplyr', 'curl', 'IRkernel', 'sparklyr', 'ggplot2', 'gtools', 'tidyr', \
+            'rmarkdown', 'base64enc', 'filelock'), \
+            '/usr/local/lib/R/site-library', \
+            repos='https://cloud.r-project.org')"
+
+# Entry point
+WORKDIR /home/dataiku
+USER dataiku
+
+COPY run.sh /home/dataiku/
+
+EXPOSE $DSS_PORT
+
+CMD [ "/home/dataiku/run.sh" ]
+
+ENV DSS_INSTALLER_ARGS $DSS_INSTALLER_ARGS
+#   add DSS_INSTALLER_ARGS dss entrypoint run.sh
+USER root
+RUN sed -i -e 's/installer.sh/installer.sh $DSS_INSTALLER_ARGS /g' run.sh ; \
+    chown root. run.sh
+USER dataiku

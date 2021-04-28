@@ -3,4 +3,20 @@ services:
   build_dss:
     build:
       context: docker
+      dockerfile: Dockerfile
+      args:
+        - http_proxy=$http_proxy
+        - https_proxy=$https_proxy
+        - no_proxy=$no_proxy
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
+  build_dss_debian:
+    build:
+      context: docker
+      dockerfile: Dockerfile.debian
+      args:
+        - http_proxy=$http_proxy
+        - https_proxy=$https_proxy
+        - no_proxy=$no_proxy
+        - MIRROR_DEBIAN
+        - dssVersion=${DSS_VERSION:-8.0.2}
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
