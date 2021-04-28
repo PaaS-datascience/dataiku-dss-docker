@@ -6,7 +6,7 @@
 * apideployer
 * api
 
-Features added:
+Added Features:
 * Add DSS_INSTALL_ARGS variables in docker entrypoint (run.sh) to configure:
   + install node type
   + INSTALL_SIZE per services (big, medium, small)
@@ -14,6 +14,7 @@ Features added:
 
 Notes:
  * api node need specific license
+ * services are running on incremented port started at 10000, 10001,10002, 10003. You can change it in artifacts
 
 # Usage
 
@@ -21,12 +22,14 @@ Notes:
 * (opt) create artifacts to override default Makefile value (ex: project_name, design port,...)
 
 ## Prereq: Build custom dss image
+This step build a custom docker image prefixed with `COMPOSE_PROJECT_NAME`_dataiku_dss
+
 ```bash
 make build
 ```
 
 
-## start all services
+## start all services (design,automation,api,apideployer)
 ```bash
 make up
 make down
@@ -52,6 +55,14 @@ make down-api
 ```bash
 make up-apideployer
 make down-apideployer
+```
+
+## test service is running
+
+```bash
+make test-all
+# or for one service
+make test-design
 ```
 
 ## Warning: to clean data dir
