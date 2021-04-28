@@ -20,3 +20,7 @@ services:
         - MIRROR_DEBIAN
         - dssVersion=${DSS_VERSION:-8.0.2}
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
+  build_dkumonitor:
+    build:
+      context: dkumonitor
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DSS_VERSION:-latest}

@@ -8,7 +8,10 @@
 EDITOR=vim
 SHELL = /bin/bash
 
+UNAME = $(shell uname -s)
+ifeq ($(UNAME),Linux)
 include /etc/os-release
+endif
 
 COMPOSE_PROJECT_NAME ?= latelier
 DSS_VERSION ?= 8.0.2
@@ -51,24 +54,25 @@ include ./artifacts
 export
 
 install-prerequisites:
+ifeq ($(UNAME),Linux)
 ifeq ("$(wildcard /usr/bin/docker)","")
-        @echo install docker-ce, still to be tested
-        sudo apt-get update
+	@echo install docker-ce, still to be tested
+	sudo apt-get update ; \
         sudo apt-get install \
         apt-transport-https \
         ca-certificates \
         curl \
         software-properties-common
-
-        curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo apt-key add -
-        sudo add-apt-repository \
+	curl -fsSL https://download.docker.com/linux/${ID}/gpg | sudo apt-key add -
+	sudo add-apt-repository \
                 "deb https://download.docker.com/linux/ubuntu \
                 `lsb_release -cs` \
                 stable"
-        sudo apt-get update
-        sudo apt-get install -y docker-ce
-        sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
+	sudo apt-get update
+	sudo apt-get install -y docker-ce
+	sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+	sudo chmod +x /usr/local/bin/docker-compose
+endif
 endif
 
 vertica:
@@ -113,6 +117,8 @@ build:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
 build-debian:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss_debian
+build-dkumonitor:
+	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dkumonitor
 
 # default start all services
 up: pre-up up-all
