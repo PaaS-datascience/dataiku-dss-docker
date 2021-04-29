@@ -36,19 +36,19 @@ AUTOMATION_INSTALL_SIZE       ?= ${INSTALL_SIZE}
 AUTOMATION_DSS_INSTALLER_ARGS ?= -t ${AUTOMATION_NODETYPE} ${DSS_INSTALLER_ARGS} -s ${AUTOMATION_INSTALL_SIZE}
 AUTOMATION_NODE               ?= localhost:${AUTOMATION_PORT}
 #
-API_NODETYPE           = api
-API_DATA_DIR           ?= ./data-api
-API_PORT               ?=10002
-API_INSTALL_SIZE       ?= ${INSTALL_SIZE}
-API_DSS_INSTALLER_ARGS ?= -t ${API_NODETYPE} ${DSS_INSTALLER_ARGS} -s ${API_INSTALL_SIZE}
-API_NODE               ?= localhost:${API_PORT}
-#
 APIDEPLOYER_NODETYPE           = apideployer
 APIDEPLOYER_DATA_DIR           ?= ./data-apideployer
-APIDEPLOYER_PORT               ?= 10003
+APIDEPLOYER_PORT               ?= 10002
 APIDEPLOYER_INSTALL_SIZE       ?= ${INSTALL_SIZE}
 APIDEPLOYER_DSS_INSTALLER_ARGS ?= -t ${APIDEPLOYER_NODETYPE} ${DSS_INSTALLER_ARGS} -s ${APIDEPLOYER_INSTALL_SIZE}
 APIDEPLOYER_NODE               ?= localhost:${APIDEPLOYER_PORT}
+#
+API_NODETYPE           = api
+API_DATA_DIR           ?= ./data-api
+API_PORT               ?=10003
+API_INSTALL_SIZE       ?= ${INSTALL_SIZE}
+API_DSS_INSTALLER_ARGS ?= -t ${API_NODETYPE} ${DSS_INSTALLER_ARGS} -s ${API_INSTALL_SIZE}
+API_NODE               ?= localhost:${API_PORT}
 #
 DKUMONITOR_VERSION ?= 0.0.5
 DKUMONITOR_DATADIR           ?= ./data-dkumonitor
@@ -124,6 +124,7 @@ clean-data-dir-dkumonitor:
 
 
 # build custom dss image with custom args installer
+build-all: build-debian build-dkumonitor
 build:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
 build-debian:

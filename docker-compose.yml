@@ -50,24 +50,6 @@ services:
     ports:
       - ${AUTOMATION_PORT:-10001}:10000
 
-  api:
-    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
-    container_name: ${COMPOSE_PROJECT_NAME}_dss_api
-    networks:
-      - dss-network
-    volumes:
-       - ${API_DATA_DIR:-./data-api}:/home/dataiku/dss
-       # add custom license
-       #- ./license.json:/home/dataiku/license.json
-    environment:
-      - http_proxy=${http_proxy}
-      - https_proxy=${https_proxy}
-      - no_proxy=${no_proxy}
-      # add custom license, change install_size
-      - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS:- -t api -s auto}
-    ports:
-      - ${API_PORT:-10002}:10000
-
   apideployer:
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
     container_name: ${COMPOSE_PROJECT_NAME}_dss_apideployer
@@ -84,7 +66,25 @@ services:
       # add custom license, change install_size
       - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS:- -t apideployer -s auto}
     ports:
-      - ${APIDEPLOYER_PORT:-10003}:10000
+      - ${APIDEPLOYER_PORT:-10002}:10000
+
+  api:
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME}_dss_api
+    networks:
+      - dss-network
+    volumes:
+       - ${API_DATA_DIR:-./data-api}:/home/dataiku/dss
+       # add custom license
+       #- ./license.json:/home/dataiku/license.json
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - no_proxy=${no_proxy}
+      # add custom license, change install_size
+      - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS:- -t api -s auto}
+    ports:
+      - ${API_PORT:-10003}:10000
 
   dkumonitor:
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DKUMONITOR_VERSION:-latest}
@@ -93,20 +93,9 @@ services:
       - dss-network
     volumes:
        - ${DKUMONITOR_DATADIR:-./data-dkumonitor}:/home/dkumonitor/data
-       # add custom license
-       # - ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
       - no_proxy=${no_proxy}
     ports:
-      - 10000:10000
-      - 10001:10001
-      - 10002:10002
-      - 10003:10003
-      - 10004:10004
-      - 10005:10005
-      - 10006:10006
-      - 10007:10007
-      - 10008:10008
-      - 10009:10009
+      - "27600-27609:27600-27609"

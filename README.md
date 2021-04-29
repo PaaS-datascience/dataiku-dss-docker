@@ -1,10 +1,12 @@
 # Dataiku dss multi node docker-compose
 
+This stack includes dataiku services
 4 services:
 * design (default)
 * automation
 * apideployer
 * api
+* (opt) dkumonitor: Graphite/Grafana stack
 
 Added Features:
 * Add DSS_INSTALL_ARGS variables in docker entrypoint (run.sh) to configure:
@@ -14,7 +16,22 @@ Added Features:
 
 Notes:
  * api node need specific license
- * services are running on incremented port started at 10000, 10001,10002, 10003. You can change it in artifacts
+ * dataiku services are running on following port (You can override it in artifacts file)
+   - 10000 (design)
+   - 10001 (automation)
+   - 10002 (apideployer)
+   - 10003 (api)
+ * dkumonitor services are running on following ports:
+   - 27600 (graphana) # UI
+   - 27601 (carbon tcp/udp) # DSS monitoring integration port / API nodes QPS for API Deployer
+   - 27602 (carbonapi_http) # APIdeployer monitoring
+   - 27603 (carbon_carbonserver_port)
+   - 27604 (carbon_pickle_port)
+   - 27605 (carbon_protobuf_port)
+   - 27606 (carbon_http_port)
+   - 27607 (carbon_link_port)
+   - 27608 (carbon_grpc_port)
+   - 27609 (carbon_tags_port)
 
 # Usage
 

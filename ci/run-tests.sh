@@ -37,7 +37,7 @@ echo "# clean env"
 make down clean-data-dir
 
 echo "# build image"
-make build
+make build-all
 
 echo "# up all services"
 make up
