@@ -52,6 +52,8 @@ API_NODE               ?= localhost:${API_PORT}
 #
 DKUMONITOR_VERSION ?= 0.0.5
 DKUMONITOR_DATADIR           ?= ./data-dkumonitor
+DKUMONITOR_PORT   ?= 27600
+DKUMONITOR_NODE               ?= localhost:${DKUMONITOR_PORT}
 
 dummy               := $(shell touch artifacts)
 include ./artifacts
@@ -133,9 +135,9 @@ build-dkumonitor:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dkumonitor
 
 # default start all services
-up: pre-up up-all
+up: up-all
 
-up-all:
+up-all: pre-up
 ifeq ("$(wildcard docker-compose-custom.yml)","")
 	docker-compose up  --no-build -d
 else

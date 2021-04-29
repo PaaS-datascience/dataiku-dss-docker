@@ -8,7 +8,7 @@ function test_app {
   echo "# Test $1 "
   set +e
   ret=0
-  timeout=120;
+  timeout=180;
   test_result=1
   until [ "$timeout" -le 0 -o "$test_result" -eq 0 ] ; do
       eval $1
@@ -22,6 +22,7 @@ function test_app {
        echo "ERROR: APP down"
        return $ret
   fi
+  set -e
 
   return $ret
 }
@@ -32,6 +33,8 @@ echo "# prepare artifacts tests"
 cat <<EOF > artifacts
 COMPOSE_PROJECT_NAME=ci
 EOF
+# ci config
+cp docker-compose-ci.yml docker-compose-custom.yml
 
 echo "# clean env"
 make down clean-data-dir
@@ -40,11 +43,10 @@ echo "# build image"
 make build-all
 
 echo "# up all services"
-make up-design
+make up-all
 
-sleep 10
 echo "# test all services"
-test_app "make test-design"
+test_app "make test-all"
 
 echo "# clean env"
 make down clean-data-dir

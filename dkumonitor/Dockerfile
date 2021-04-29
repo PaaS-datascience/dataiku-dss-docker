@@ -3,7 +3,7 @@ ARG dkumonitorVersion
 
 ENV DKUMONITOR_VERSION="$dkumonitorVersion" \
     DKUMONITOR_DATADIR="/home/dkumonitor/data" \
-    DKUMONITOR_PORT=10000
+    DKUMONITOR_PORT=27600
 
 ARG MIRROR_DEBIAN
 
