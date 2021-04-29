@@ -85,3 +85,28 @@ services:
       - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS:- -t apideployer -s auto}
     ports:
       - ${APIDEPLOYER_PORT:-10003}:10000
+
+  dkumonitor:
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DKUMONITOR_VERSION:-latest}
+    container_name: ${COMPOSE_PROJECT_NAME}_dkumonitor
+    networks:
+      - dss-network
+    volumes:
+       - ${DKUMONITOR_DATADIR:-./data-dkumonitor}:/home/dkumonitor/data
+       # add custom license
+       # - ./license.json:/home/dataiku/license.json
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - no_proxy=${no_proxy}
+    ports:
+      - 10000:10000
+      - 10001:10001
+      - 10002:10002
+      - 10003:10003
+      - 10004:10004
+      - 10005:10005
+      - 10006:10006
+      - 10007:10007
+      - 10008:10008
+      - 10009:10009

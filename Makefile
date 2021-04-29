@@ -12,7 +12,8 @@ UNAME = $(shell uname -s)
 ifeq ($(UNAME),Linux)
 include /etc/os-release
 endif
-
+ID_U = $(shell id -un)
+ID_G = $(shell id -gn)
 COMPOSE_PROJECT_NAME ?= latelier
 DSS_VERSION ?= 8.0.2
 #
@@ -48,6 +49,9 @@ APIDEPLOYER_PORT               ?= 10003
 APIDEPLOYER_INSTALL_SIZE       ?= ${INSTALL_SIZE}
 APIDEPLOYER_DSS_INSTALLER_ARGS ?= -t ${APIDEPLOYER_NODETYPE} ${DSS_INSTALLER_ARGS} -s ${APIDEPLOYER_INSTALL_SIZE}
 APIDEPLOYER_NODE               ?= localhost:${APIDEPLOYER_PORT}
+#
+DKUMONITOR_VERSION ?= 0.0.5
+DKUMONITOR_DATADIR           ?= ./data-dkumonitor
 
 dummy               := $(shell touch artifacts)
 include ./artifacts
@@ -90,16 +94,20 @@ requirements: up
 pre-up: pre-up-design pre-up-automation pre-up-api pre-up-apideployer
 pre-up-design:
 	echo "# pre up design"
-	if [ ! -d "${DESIGN_DATA_DIR}" ] ; then mkdir -p ${DESIGN_DATA_DIR} ; chown $(shell id -un). ${DESIGN_DATA_DIR} ; fi
+	if [ ! -d "${DESIGN_DATA_DIR}" ] ; then mkdir -p ${DESIGN_DATA_DIR} ; chown ${ID_U}:${ID_G} ${DESIGN_DATA_DIR} ; fi
 pre-up-automation:
 	echo "# pre up automation"
-	if [ ! -d "${AUTOMATION_DATA_DIR}" ] ; then mkdir -p ${AUTOMATION_DATA_DIR} ; chown $(shell id -un). ${AUTOMATION_DATA_DIR} ; fi
+	if [ ! -d "${AUTOMATION_DATA_DIR}" ] ; then mkdir -p ${AUTOMATION_DATA_DIR} ; chown ${ID_U}:${ID_G} ${AUTOMATION_DATA_DIR} ; fi
 pre-up-api:
 	echo "# pre up api"
-	if [ ! -d "${API_DATA_DIR}" ] ; then mkdir -p ${API_DATA_DIR} ; chown $(shell id -un). ${API_DATA_DIR} ; fi
+	if [ ! -d "${API_DATA_DIR}" ] ; then mkdir -p ${API_DATA_DIR} ; chown ${ID_U}:${ID_G} ${API_DATA_DIR} ; fi
 pre-up-apideployer:
 	echo "# pre up apideployer"
-	if [ ! -d "${APIDEPLOYER_DATA_DIR}" ] ; then mkdir -p ${APIDEPLOYER_DATA_DIR} ; chown $(shell id -un). ${APIDEPLOYER_DATA_DIR} ; fi
+	if [ ! -d "${APIDEPLOYER_DATA_DIR}" ] ; then mkdir -p ${APIDEPLOYER_DATA_DIR} ; chown ${ID_U}:${ID_G} ${APIDEPLOYER_DATA_DIR} ; fi
+
+pre-up-dkumonitor:
+	echo "# pre up dkumonitor"
+	if [ ! -d "${DKUMONITOR_DATADIR}" ] ; then mkdir -p ${DKUMONITOR_DATADIR} ; chown ${ID_U}:${ID_G} ${DKUMONITOR_DATADIR} ; fi
 
 # clean data dir if exist
 clean-data-dir: clean-data-dir-design clean-data-dir-automation clean-data-dir-api clean-data-dir-apideployer
@@ -111,6 +119,9 @@ clean-data-dir-api:
 	if [ -d "${API_DATA_DIR}" ] ; then rm -rf ${API_DATA_DIR} ; fi
 clean-data-dir-apideployer:
 	if [ -d "${APIDEPLOYER_DATA_DIR}" ] ; then rm -rf ${APIDEPLOYER_DATA_DIR} ; fi
+clean-data-dir-dkumonitor:
+	if [ -d "${DKUMONITOR_DATADIR}" ] ; then rm -rf ${DKUMONITOR_DATADIR} ; fi
+
 
 # build custom dss image with custom args installer
 build:
@@ -153,7 +164,7 @@ else
 endif
 rm-%:
 ifeq ("$(wildcard docker-compose-custom.yml)","")
-	docker-compose rm  $*
+	docker-compose rm -s -f $*
 else
 	docker-compose -f docker-compose.yml -f docker-compose-custom.yml rm -s -f $*
 endif

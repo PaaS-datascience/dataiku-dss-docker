@@ -1,6 +1,11 @@
 FROM debian:buster
-ENV DKUMONITOR_DATADIR="/home/dkumonitor/data" \
+ARG dkumonitorVersion
+
+ENV DKUMONITOR_VERSION="$dkumonitorVersion" \
+    DKUMONITOR_DATADIR="/home/dkumonitor/data" \
     DKUMONITOR_PORT=10000
+
+ARG MIRROR_DEBIAN
 
 RUN useradd dkumonitor \
     && mkdir -p /home/dkumonitor ${DKUMONITOR_DATADIR} \
@@ -18,11 +23,13 @@ RUN echo "$http_proxy $no_proxy" && set -x && [ -z "$MIRROR_DEBIAN" ] || \
         python2.7 \
     && rm -rf /var/lib/apt/lists/*
 
+# latest_version=$(curl -s https://cdn.downloads.dataiku.com/latest_dkumonitor.json|jq -r '.version') 
 RUN cd /home/dkumonitor \
-    && latest_version=$(curl -s https://cdn.downloads.dataiku.com/latest_dkumonitor.json|jq -r '.version')  \
-    && curl -O https://cdn.downloads.dataiku.com/public/dkumonitor/$latest_version/dkumonitor-$latest_version.tar.gz \
-    && tar xf dkumonitor-$latest_version.tar.gz \
-    && rm -rf dkumonitor-$latest_version.tar.gz
+    && curl -O https://cdn.downloads.dataiku.com/public/dkumonitor/$DKUMONITOR_VERSION/dkumonitor-$DKUMONITOR_VERSION.tar.gz \
+    && tar xf dkumonitor-$DKUMONITOR_VERSION.tar.gz \
+    && rm -rf dkumonitor-$DKUMONITOR_VERSION.tar.gz \
+    && echo "+ Fix supervisord in foreground" \
+    && sed -i -e 's|\(exec python.*\)|\1 -n|g' dkumonitor-$DKUMONITOR_VERSION/bin/dkm
 
 # Entry point
 WORKDIR /home/dkumonitor

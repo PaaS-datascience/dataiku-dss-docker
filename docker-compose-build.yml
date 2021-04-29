@@ -23,4 +23,10 @@ services:
   build_dkumonitor:
     build:
       context: dkumonitor
-    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DSS_VERSION:-latest}
+      args:
+        - http_proxy=$http_proxy
+        - https_proxy=$https_proxy
+        - no_proxy=$no_proxy
+        - MIRROR_DEBIAN
+        - dkumonitorVersion=${DKUMONITOR_VERSION:-0.0.5}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DKUMONITOR_VERSION:-latest}
