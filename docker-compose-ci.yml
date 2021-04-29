@@ -4,6 +4,9 @@ services:
   design:
     volumes:
        - data-design:/home/dataiku/dss
+    environment:
+      - GRAPHITE_HOST=dkumonitor
+      - GRAPHITE_PORT=27601
   automation:
     volumes:
        - data-automation:/home/dataiku/dss
