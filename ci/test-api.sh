@@ -1,5 +1,5 @@
 #!/bin/bash
-TEST_NODE="${API_NODE:-localhost:10002}"
+TEST_NODE="${API_NODE:-localhost:10003}"
 
 # without license, backend api won't start. Test only unauthoried access
 #TEST_PATH="/isAlive"

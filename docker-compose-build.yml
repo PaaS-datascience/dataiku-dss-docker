@@ -2,7 +2,7 @@ version: '3.5'
 services:
   build_dss:
     build:
-      context: docker
+      context: dss
       dockerfile: Dockerfile
       args:
         - http_proxy=$http_proxy
@@ -11,7 +11,7 @@ services:
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
   build_dss_debian:
     build:
-      context: docker
+      context: dss
       dockerfile: Dockerfile.debian
       args:
         - http_proxy=$http_proxy
@@ -20,3 +20,13 @@ services:
         - MIRROR_DEBIAN
         - dssVersion=${DSS_VERSION:-8.0.2}
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
+  build_dkumonitor:
+    build:
+      context: dkumonitor
+      args:
+        - http_proxy=$http_proxy
+        - https_proxy=$https_proxy
+        - no_proxy=$no_proxy
+        - MIRROR_DEBIAN
+        - dkumonitorVersion=${DKUMONITOR_VERSION:-0.0.5}
+    image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dkumonitor:${DKUMONITOR_VERSION:-latest}
