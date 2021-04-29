@@ -79,4 +79,7 @@ ENV DSS_INSTALLER_ARGS $DSS_INSTALLER_ARGS
 USER root
 RUN sed -i -e 's/installer.sh/installer.sh $DSS_INSTALLER_ARGS /g' run.sh ; \
     chown root. run.sh
+
 USER dataiku
+# Add monitoring
+RUN dataiku-dss-$DSS_VERSION/scripts/install/download-monitoring-packages.sh
