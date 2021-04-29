@@ -40,11 +40,11 @@ echo "# build image"
 make build-all
 
 echo "# up all services"
-make up
+make up-design
 
 sleep 10
 echo "# test all services"
-test_app "make test-all"
+test_app "make test-design"
 
 echo "# clean env"
 make down clean-data-dir

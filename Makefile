@@ -91,7 +91,8 @@ requirements: up
 	docker exec -it dss /home/dataiku/dss/bin/pip install --proxy ${http_proxy} -r requirements.txt
 
 # create data dir if not exist
-pre-up: pre-up-design pre-up-automation pre-up-api pre-up-apideployer
+pre-up: pre-up-design pre-up-automation pre-up-api pre-up-apideployer pre-up-dkumonitor
+
 pre-up-design:
 	echo "# pre up design"
 	if [ ! -d "${DESIGN_DATA_DIR}" ] ; then mkdir -p ${DESIGN_DATA_DIR} ; chown ${ID_U}:${ID_G} ${DESIGN_DATA_DIR} ; fi
@@ -104,13 +105,13 @@ pre-up-api:
 pre-up-apideployer:
 	echo "# pre up apideployer"
 	if [ ! -d "${APIDEPLOYER_DATA_DIR}" ] ; then mkdir -p ${APIDEPLOYER_DATA_DIR} ; chown ${ID_U}:${ID_G} ${APIDEPLOYER_DATA_DIR} ; fi
-
 pre-up-dkumonitor:
 	echo "# pre up dkumonitor"
 	if [ ! -d "${DKUMONITOR_DATADIR}" ] ; then mkdir -p ${DKUMONITOR_DATADIR} ; chown ${ID_U}:${ID_G} ${DKUMONITOR_DATADIR} ; fi
 
 # clean data dir if exist
-clean-data-dir: clean-data-dir-design clean-data-dir-automation clean-data-dir-api clean-data-dir-apideployer
+clean-data-dir: clean-data-dir-design clean-data-dir-automation clean-data-dir-api clean-data-dir-apideployer clean-data-dir-dkumonitor
+
 clean-data-dir-design:
 	if [ -d "${DESIGN_DATA_DIR}" ] ; then rm -rf ${DESIGN_DATA_DIR} ; fi
 clean-data-dir-automation:
@@ -121,7 +122,6 @@ clean-data-dir-apideployer:
 	if [ -d "${APIDEPLOYER_DATA_DIR}" ] ; then rm -rf ${APIDEPLOYER_DATA_DIR} ; fi
 clean-data-dir-dkumonitor:
 	if [ -d "${DKUMONITOR_DATADIR}" ] ; then rm -rf ${DKUMONITOR_DATADIR} ; fi
-
 
 # build custom dss image with custom args installer
 build-all: build build-dkumonitor
@@ -173,7 +173,7 @@ endif
 down-%: | stop-% rm-%
 	@echo "# down $*"
 
-test-all: test-design test-automation test-api test-apideployer
+test-all: test-design test-automation test-api test-apideployer test-dkumonitor
 	@echo "#test all success"
 test-%:
 	@ci/test-$*.sh
