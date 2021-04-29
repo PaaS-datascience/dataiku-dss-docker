@@ -2,7 +2,7 @@ version: '3.5'
 services:
   build_dss:
     build:
-      context: docker
+      context: dss
       dockerfile: Dockerfile
       args:
         - http_proxy=$http_proxy
@@ -11,7 +11,7 @@ services:
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
   build_dss_debian:
     build:
-      context: docker
+      context: dss
       dockerfile: Dockerfile.debian
       args:
         - http_proxy=$http_proxy

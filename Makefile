@@ -124,7 +124,7 @@ clean-data-dir-dkumonitor:
 
 
 # build custom dss image with custom args installer
-build-all: build-debian build-dkumonitor
+build-all: build build-dkumonitor
 build:
 	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
 build-debian:
