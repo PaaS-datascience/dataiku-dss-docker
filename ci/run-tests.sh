@@ -48,5 +48,7 @@ make up-all
 echo "# test all services"
 test_app "make test-all"
 
+docker exec -i ci_dss_design curl -s  127.0.0.1:10001/dip/api/get-configuration
+
 echo "# clean env"
 make down clean-data-dir

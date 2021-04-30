@@ -6,6 +6,7 @@ ENV DKUMONITOR_VERSION="$dkumonitorVersion" \
     DKUMONITOR_PORT=27600
 
 ARG MIRROR_DEBIAN
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN useradd dkumonitor \
     && mkdir -p /home/dkumonitor ${DKUMONITOR_DATADIR} \
