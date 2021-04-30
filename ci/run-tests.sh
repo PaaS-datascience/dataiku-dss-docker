@@ -44,6 +44,7 @@ make build-all
 
 echo "# up all services"
 make up-all
+make test-up-design
 
 echo "# test all services"
 test_app "make test-all"

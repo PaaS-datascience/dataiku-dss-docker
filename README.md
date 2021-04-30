@@ -10,7 +10,7 @@ This stack includes dataiku services
 
 Added Features:
 * Add DSS_INSTALL_ARGS variables in docker entrypoint (run.sh) to configure:
-  + install node type
+  + install node type (-t option for installer.sh)
   + INSTALL_SIZE per services (big, medium, small)
   + license path per services
 
@@ -39,12 +39,11 @@ Notes:
 * (opt) create artifacts to override default Makefile value (ex: project_name, design port,...)
 
 ## Prereq: Build custom dss image
-This step build a custom docker image prefixed with `COMPOSE_PROJECT_NAME`_dataiku_dss
+This step build a custom docker image for dataiku prefixed with `COMPOSE_PROJECT_NAME`_dataiku_dss
 
 ```bash
 make build
 ```
-
 
 ## start all services (design,automation,api,apideployer)
 ```bash
