@@ -55,8 +55,21 @@ DKUMONITOR_DATADIR           ?= ./data-dkumonitor
 DKUMONITOR_PORT   ?= 27600
 DKUMONITOR_NODE               ?= localhost:${DKUMONITOR_PORT}
 
+# detect tty
+DOCKER_USE_TTY := $(shell test -t 1 && echo "-t" )
+DC_USE_TTY     := $(shell test -t 1 || echo "-T" )
+
 dummy               := $(shell touch artifacts)
 include ./artifacts
+
+DC_DSS_BUILD_CONF ?= -f docker-compose-build.yml
+# detect custom docker-compose file
+ifeq ("$(wildcard docker-compose-custom.yml)","")
+DC_DSS_RUN_CONF ?= -f docker-compose.yml
+else
+DC_DSS_RUN_CONF ?= -f docker-compose.yml -f docker-compose-custom.yml
+endif
+
 export
 
 install-prerequisites:
@@ -128,21 +141,17 @@ clean-data-dir-dkumonitor:
 # build custom dss image with custom args installer
 build-all: build build-dkumonitor
 build:
-	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss
+	docker-compose ${DC_DSS_BUILD_CONF} build --force-rm --no-cache build_dss
 build-debian:
-	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dss_debian
+	docker-compose ${DC_DSS_BUILD_CONF} build --force-rm --no-cache build_dss_debian
 build-dkumonitor:
-	docker-compose -f docker-compose-build.yml  build --force-rm --no-cache build_dkumonitor
+	docker-compose ${DC_DSS_BUILD_CONF} build --force-rm --no-cache build_dkumonitor
 
 # default start all services
 up: up-all
 
 up-all: pre-up
-ifeq ("$(wildcard docker-compose-custom.yml)","")
-	docker-compose up  --no-build -d
-else
-	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up --no-build -d
-endif
+	docker-compose ${DC_DSS_RUN_CONF} up  --no-build -d
 #	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get update
 #	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
 
@@ -153,24 +162,12 @@ restart: down up
 
 # manage only one service (design,automation,api,apideployer)
 up-%: | pre-up-%
-ifeq ("$(wildcard docker-compose-custom.yml)","")
-	docker-compose up  --no-build -d $*
-else
-	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up --no-build -d $*
-endif
+	docker-compose ${DC_DSS_RUN_CONF} up  --no-build -d $*
 
 stop-%:
-ifeq ("$(wildcard docker-compose-custom.yml)","")
-	docker-compose stop $*
-else
-	docker-compose -f docker-compose.yml -f docker-compose-custom.yml stop $*
-endif
+	docker-compose ${DC_DSS_RUN_CONF} stop $*
 rm-%:
-ifeq ("$(wildcard docker-compose-custom.yml)","")
-	docker-compose rm -s -f $*
-else
-	docker-compose -f docker-compose.yml -f docker-compose-custom.yml rm -s -f $*
-endif
+	docker-compose ${DC_DSS_RUN_CONF} rm -s -f $*
 
 down-%: | stop-% rm-%
 	@echo "# down $*"
@@ -179,3 +176,6 @@ test-all: test-design test-automation test-api test-apideployer test-dkumonitor
 	@echo "#test all success"
 test-%:
 	@ci/test-$*.sh
+
+test-up-%:
+	@ci/test-up-$*.sh
