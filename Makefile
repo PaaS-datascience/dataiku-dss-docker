@@ -160,6 +160,9 @@ down:
 
 restart: down up
 
+restart-%: down-% up-%
+	echo "# $* restarted"
+#
 # manage only one service (design,automation,api,apideployer)
 up-%: | pre-up-%
 	docker-compose ${DC_DSS_RUN_CONF} up  --no-build -d $*
