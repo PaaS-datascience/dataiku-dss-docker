@@ -29,5 +29,4 @@ services:
     volumes:
        - ./license.json:/home/dataiku/license.json
     environment:
-      - DSS_INSTALLER_ARGS=-t api -s auto -l  /home/dataiku/license.json
       - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS} -l  /home/dataiku/license.json

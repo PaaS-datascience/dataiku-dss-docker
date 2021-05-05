@@ -25,20 +25,19 @@ RUN echo "$http_proxy $no_proxy" && set -x && [ -z "$MIRROR_DEBIAN" ] || \
     && rm -rf /var/lib/apt/lists/*
 
 # latest_version=$(curl -s https://cdn.downloads.dataiku.com/latest_dkumonitor.json|jq -r '.version') 
-RUN cd /home/dkumonitor \
-    && curl -O https://cdn.downloads.dataiku.com/public/dkumonitor/$DKUMONITOR_VERSION/dkumonitor-$DKUMONITOR_VERSION.tar.gz \
-    && tar xf dkumonitor-$DKUMONITOR_VERSION.tar.gz \
-    && rm -rf dkumonitor-$DKUMONITOR_VERSION.tar.gz \
+RUN DKUMONITORKIT="dkumonitor-$DKUMONITOR_VERSION" \
+    && cd /home/dkumonitor \
+    && curl -O https://cdn.downloads.dataiku.com/public/dkumonitor/$DKUMONITOR_VERSION/$DKUMONITORKIT.tar.gz \
+    && tar xf $DKUMONITORKIT.tar.gz \
+    && rm -rf $DKUMONITORKIT.tar.gz \
     && echo "+ Fix supervisord in foreground" \
-    && sed -i -e 's|\(exec python.*\)|\1 -n|g' dkumonitor-$DKUMONITOR_VERSION/bin/dkm
+    && sed -i -e 's|\(exec python.*\)|\1 -n|g' $DKUMONITORKIT/bin/dkm \
+    && chown -Rh dkumonitor:dkumonitor "$DKUMONITORKIT"
 
 # Entry point
 WORKDIR /home/dkumonitor
 USER dkumonitor
-EXPOSE $DKUMONITOR_PORT
-
 COPY run.sh /home/dkumonitor/
-
 EXPOSE $DKUMONITOR_PORT
 
 # TODO: fix dku version 

@@ -161,7 +161,7 @@ up-all: pre-up
 #	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
 
 down:
-	docker-compose down
+	docker-compose ${DC_DSS_RUN_CONF} down
 
 restart: down up
 

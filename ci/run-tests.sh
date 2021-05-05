@@ -33,6 +33,11 @@ echo "# $(basename $0) started"
 echo "# prepare artifacts tests"
 cat <<EOF > artifacts
 COMPOSE_PROJECT_NAME=ci
+DESIGN_DATA_DIR=data-design
+AUTOMATION_DATA_DIR=data-automation
+APIDEPLOYER_DATA_DIR=data-apideployer
+API_DATA_DIR=data-api
+DKUMONITOR_DATADIR=data-dkumonitor
 EOF
 # ci config
 cp docker-compose-ci.yml docker-compose-custom.yml
@@ -44,17 +49,12 @@ echo "# build image"
 make build-all
 
 echo "# up all services"
-#make up-all
-make up-design up-dkumonitor
+make up-all
 make test-up-design
-#make test-up-dkumonitor DEBUG=true
+make test-up-dkumonitor
 
 echo "# test all services"
-test_app "make test-design"
-test_app "make test-automation"
-test_app "make test-apideployer"
-test_app "make test-api"
-test_app "make test-dkumonitor DEBUG=true"
+test_app "make test-all"
 
 echo "# clean env"
 make down clean-data-dir

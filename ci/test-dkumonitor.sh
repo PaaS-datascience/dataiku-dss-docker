@@ -21,14 +21,11 @@ echo "# $TEST_URL success"
 ret=1
 TEST_PORT=$((DKUMONITOR_PORT+2))
 TEST_NODE="localhost:${TEST_PORT}"
-#TEST_PATH="/metrics/find?query=dss.*&format=raw"
-TEST_PATH="/version"
-# curl localhost:27602/version
+TEST_PATH="/metrics/find?query=dss.*&format=raw"
 TEST_URL="${TEST_NODE}${TEST_PATH}"
 echo "# $(basename $0) $TEST_URL"
 
-#curl -s -L -X GET "${TEST_URL}" |grep "^dss.*"
-curl -s -L -X GET "${TEST_URL}" |egrep "^[0-9]"
+curl -s -L -X GET "${TEST_URL}" |grep "^dss.*"
 ret=$?
 
 if [ "$ret" -gt 0 ] ; then

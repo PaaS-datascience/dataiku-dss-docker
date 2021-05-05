@@ -1,5 +1,7 @@
 # TODO
 * dkumonitor: fix dashboard monitoring in graphana
+* dss: add python requirements at buildtime
+* dss: add optionnal db driver and service (vertica,mongo,mysql,postgresql,elastic)
 * dss: add dssadmin install options (install-R-integration, install-spark-integration ...)
 * dss: add event server (audit)
 * dss: understand dssadmin build-base-image and build-container-exec-code-env-images 
@@ -7,13 +9,15 @@
 * dss: use api python to interact with dss node
 * dss: auto add api key from api node
 * dss: include docker package to make DinD  worked
-* dss: add optionnal db driver and service (vertica,mongo,mysql,postgresql,elastic)
-* dss: add python requirements at buildtime
+* dss: add sample mini flow test
+* db add sample docker db (vertica/postgresql/mysql/mongo/elastic)
+
 # Done
-* add compose with 4 services
+* [x] add compose with 4 services
 * add docker image based on debian (cf https://doc.dataiku.com/dss/latest/installation/custom/initial-install.html#debian-ubuntu-linux-distributions)
 * add minimal ci test for sandbox
-* dkumonitor: monitoring integration (graphite/graphana, collectd, dkumonitor)
+* add dkumonitor: monitoring integration (graphite/graphana, collectd, dkumonitor)
+* dss: add optionnal db driver and service (vertica,mongo,mysql,postgresql,elastic)
 
 # Warnings
 * postinstall at first container boot (try to make staff in build time not at run time)

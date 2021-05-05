@@ -18,7 +18,7 @@ services:
        - data-api:/home/dataiku/dss
   dkumonitor:
     volumes:
-       - data-dkumonitor:/home/dataiku/dss
+       - data-dkumonitor:/home/dataiku/data
 
 volumes:
   data-design:
