@@ -1,4 +1,6 @@
 #!/bin/bash
+[ -n "$DEBUG" ] && set -x
+
 TEST_NODE="${AUTOMATION_NODE:-localhost:10001}"
 
 echo "# $(basename $0) $TEST_NODE"

@@ -3,6 +3,7 @@
 # test app
 #
 set -e
+[ -n "$DEBUG" ] && set -x
 
 basename=$(basename $0)
 container_name=design

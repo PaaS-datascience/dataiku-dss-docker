@@ -16,6 +16,9 @@ ID_U = $(shell id -un)
 ID_G = $(shell id -gn)
 COMPOSE_PROJECT_NAME ?= latelier
 DSS_VERSION ?= 8.0.2
+
+# enable trace in shell
+DEBUG ?= 
 #
 # NODETYPE=design automation api apideployer
 # INSTALL_SIZE=auto big medium small
@@ -175,7 +178,7 @@ rm-%:
 down-%: | stop-% rm-%
 	@echo "# down $*"
 
-test-all: test-design test-automation test-api test-apideployer test-dkumonitor
+test-all: test-design test-automation test-apideployer test-api test-dkumonitor
 	@echo "#test all success"
 test-%:
 	@ci/test-$*.sh

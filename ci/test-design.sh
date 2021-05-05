@@ -1,4 +1,6 @@
 #!/bin/bash
+[ -n "$DEBUG" ] && set -x
+
 TEST_NODE="${DESIGN_NODE:-localhost:10000}"
 
 TEST_PATH="/public/api/internal-metrics"

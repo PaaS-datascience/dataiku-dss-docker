@@ -1,4 +1,6 @@
 #!/bin/bash
+[ -n "$DEBUG" ] && set -x
+
 TEST_NODE="${API_NODE:-localhost:10003}"
 
 # without license, backend api won't start. Test only unauthoried access

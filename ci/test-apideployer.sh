@@ -1,4 +1,6 @@
 #!/bin/bash
+[ -n "$DEBUG" ] && set -x
+
 TEST_NODE="${APIDEPLOYER_NODE:-localhost:10002}"
 
 echo "# $(basename $0) $TEST_NODE"
