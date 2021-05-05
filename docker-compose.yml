@@ -26,7 +26,7 @@ services:
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
-      - no_proxy=${no_proxy}
+      - no_proxy=${no_proxy},dkumonitor
       # add custom license, change install_size
       - DSS_INSTALLER_ARGS=${DESIGN_DSS_INSTALLER_ARGS:- -t design -s auto}
     ports:
@@ -44,7 +44,7 @@ services:
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
-      - no_proxy=${no_proxy}
+      - no_proxy=${no_proxy},dkumonitor
       # add custom license, change install_size
       - DSS_INSTALLER_ARGS=${AUTOMATION_DSS_INSTALLER_ARGS:- -t automation -s auto}
     ports:
@@ -62,7 +62,7 @@ services:
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
-      - no_proxy=${no_proxy}
+      - no_proxy=${no_proxy},dkumonitor
       # add custom license, change install_size
       - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS:- -t apideployer -s auto}
     ports:
@@ -80,7 +80,7 @@ services:
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
-      - no_proxy=${no_proxy}
+      - no_proxy=${no_proxy},dkumonitor
       # add custom license, change install_size
       - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS:- -t api -s auto}
     ports:
