@@ -23,7 +23,7 @@ DEBUG ?=
 # NODETYPE=design automation api apideployer
 # INSTALL_SIZE=auto big medium small
 INSTALL_SIZE ?= auto
-DSS_INSTALLER_ARGS ?= # -l /home/dataiku/license.json
+DSS_INSTALLER_ARGS ?= -P python3.6 # -l /home/dataiku/license.json
 #
 DESIGN_NODETYPE           = design
 DESIGN_DATA_DIR           ?= ./data-design
@@ -57,6 +57,8 @@ DKUMONITOR_VERSION ?= 0.0.5
 DKUMONITOR_DATADIR           ?= ./data-dkumonitor
 DKUMONITOR_PORT   ?= 27600
 DKUMONITOR_NODE               ?= localhost:${DKUMONITOR_PORT}
+#
+VERTICA_VERSION ?= 10.1.1-0
 
 # detect tty
 DOCKER_USE_TTY := $(shell test -t 1 && echo "-t" )

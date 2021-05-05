@@ -12,7 +12,9 @@ Added Features:
   + install node type (-t option for installer.sh)
   + INSTALL_SIZE per services (big, medium, small)
   + license path per services
-  + register dss node in dkumonitor
+* auto register dss nodes in dkumonitor
+* install python pip requirements for offline install at runtime (python3.6)
+* install jdbc verticat driver
 
 Sources:
 * [official docker image dataiku/dss](https://github.com/dataiku/dataiku-tools/tree/master/dss-docker)

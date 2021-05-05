@@ -5,7 +5,7 @@ services:
     volumes:
        - ./license.json:/home/dataiku/license.json
     environment:
-      - DSS_INSTALLER_ARGS=-t design -s auto -l  /home/dataiku/license.json
+      - DSS_INSTALLER_ARGS=${DESIGN_DSS_INSTALLER_ARGS} -l  /home/dataiku/license.json
       - GRAPHITE_HOST=dkumonitor
       - GRAPHITE_PORT=27601
 
@@ -13,7 +13,7 @@ services:
     volumes:
        - ./license.json:/home/dataiku/license.json
     environment:
-      - DSS_INSTALLER_ARGS=-t automation -s auto -l  /home/dataiku/license.json
+      - DSS_INSTALLER_ARGS=${AUTOMATION_DSS_INSTALLER_ARGS} -l  /home/dataiku/license.json
       - GRAPHITE_HOST=dkumonitor
       - GRAPHITE_PORT=27601
 
@@ -21,7 +21,7 @@ services:
     volumes:
        - ./license.json:/home/dataiku/license.json
     environment:
-      - DSS_INSTALLER_ARGS=-t apideployer -s auto -l  /home/dataiku/license.json
+      - DSS_INSTALLER_ARGS=${APIDEPLOYER_DSS_INSTALLER_ARGS} -l  /home/dataiku/license.json
       - GRAPHITE_HOST=dkumonitor
       - GRAPHITE_PORT=27601
 
@@ -30,3 +30,4 @@ services:
        - ./license.json:/home/dataiku/license.json
     environment:
       - DSS_INSTALLER_ARGS=-t api -s auto -l  /home/dataiku/license.json
+      - DSS_INSTALLER_ARGS=${API_DSS_INSTALLER_ARGS} -l  /home/dataiku/license.json
