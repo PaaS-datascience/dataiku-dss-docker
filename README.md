@@ -1,18 +1,24 @@
 # Dataiku dss multi node docker-compose
 
-This stack includes dataiku services
-4 services:
-* design (default)
-* automation
-* apideployer
-* api
-* (opt) dkumonitor: Graphite/Grafana stack
+This stack includes the following dataiku services
+* design node (default)
+* automation node
+* apideployer node
+* api node
+* dkumonitor: Graphite/Grafana stack (optional)
 
 Added Features:
 * Add DSS_INSTALL_ARGS variables in docker entrypoint (run.sh) to configure:
   + install node type (-t option for installer.sh)
   + INSTALL_SIZE per services (big, medium, small)
   + license path per services
+  + register dss node in dkumonitor
+
+Sources:
+* [official docker image dataiku/dss](https://github.com/dataiku/dataiku-tools/tree/master/dss-docker)
+* [requirements for debian](https://doc.dataiku.com/dss/latest/installation/custom/initial-install.html#debian-ubuntu-linux-distributions)
+* [dkumonitor](https://github.com/dataiku/dkumonitor)
+
 
 Notes:
  * api node need specific license

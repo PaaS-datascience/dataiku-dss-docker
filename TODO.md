@@ -1,7 +1,8 @@
 # TODO
+* monitoring integration (graphite/graphana, collectd, dkumonitor)
+* add dashboard monitoring in graphana
 * add dssadmin install options (install-R-integration, install-spark-integration ...)
 * add event server
-* add monitoring integration (graphite/graphana, collectd, dkumonitor)
 * understand dssadmin build-base-image and build-container-exec-code-env-images 
 * create user/group use dsscli command to create user/group, api key, bundle project.
 * use api python to interact with dss node
