@@ -13,7 +13,7 @@
 * db add sample docker db (vertica/postgresql/mysql/mongo/elastic)
 
 # Done
-* [x] add compose with 4 services
+* add compose with 4 services
 * add docker image based on debian (cf https://doc.dataiku.com/dss/latest/installation/custom/initial-install.html#debian-ubuntu-linux-distributions)
 * add minimal ci test for sandbox
 * add dkumonitor: monitoring integration (graphite/graphana, collectd, dkumonitor)
@@ -24,6 +24,5 @@
 * at runtime, environnement may not be connected to internet 
 * reverseproxy and prefix path :(see notes about Data Science Studio does not currently support being remapped to a base URL with a non-empty path prefix (that is, to http://HOST:PORT/PREFIX/ where PREFIX is not empty  https://doc.dataiku.com/dss/latest/installation/custom/reverse-proxy.html#http-deployment-behind-a-nginx-reverse-proxy)   try traefik as reverse proxy in front of node 
 * about logs, stored as files and not send as stream (https://doc.dataiku.com/dss/latest/installation/custom/advanced-customization.html#configuring-log-file-rotation)
-
 # Interesting links
 * https://towardsdatascience.com/mlops-w-dataiku-dss-on-kubernetes-505ee9a2e15a

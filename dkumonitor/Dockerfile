@@ -1,7 +1,7 @@
 FROM debian:buster
-ARG dkumonitorVersion
+ARG DKUMONITOR_VERSION
 
-ENV DKUMONITOR_VERSION="$dkumonitorVersion" \
+ENV DKUMONITOR_VERSION="$DKUMONITOR_VERSION" \
     DKUMONITOR_DATADIR="/home/dkumonitor/data" \
     DKUMONITOR_PORT=27600
 

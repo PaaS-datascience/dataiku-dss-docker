@@ -18,8 +18,12 @@ if [ -f "requirements.txt" -a -s "requirements.txt" ]; then
   [ -z "$PYPI_HOST" ] || pip_args="$pip_args --trusted-host $PYPI_HOST "
   echo "$no_proxy" |tr ',' '\n' | sort -u |grep "^$PYPI_HOST$" || \
     [ -z "$http_proxy" ] || pip_args="$pip_args --proxy $http_proxy "
+    # extract pip python2.7 to download offline packages
+    su - dataiku -c bash -c "$DSS_INSTALLDIR/installer.sh -d dss -p 10000"
     mkdir -p python
-    python3 -m pip download $pip_args -d python -r requirements.txt
+    dss/bin/pip download $pip_args -d python -r requirements.txt
+    rm -rf dss
+    mkdir dss && chown dataiku:dataiku dss
 fi
 
 # Add DSS_INSTALLER_ARGS

@@ -1,3 +1,4 @@
+ARG DSS_VERSION
 FROM dataiku/dss:${DSS_VERSION:-latest}
 # add DSS_INSTALLER_ARGS dss entrypoint run.sh
 ENV DSS_INSTALLER_ARGS $DSS_INSTALLER_ARGS

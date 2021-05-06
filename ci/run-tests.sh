@@ -42,6 +42,9 @@ EOF
 # ci config
 cp docker-compose-ci.yml docker-compose-custom.yml
 
+echo "# config"
+make config
+
 echo "# clean env"
 make down clean-data-dir
 
@@ -50,7 +53,7 @@ make build-all
 
 echo "# up all services"
 make up-all
-make test-up-design
+make test-up-design   
 make test-up-dkumonitor
 
 echo "# test all services"
