@@ -29,6 +29,7 @@ Versions (from `Makefile.mk`):
 | dataiku/dss | 8.0.2  | official docker dss is 8.0.2, but last software is 8.0.7 or 9.0.2 |
 | dkumonitor| 0.0.5  | |
 | jdbc vertica | 10.1.1-0 | |
+| jdbc mysql | 8.0.24 | |
 
 Notes:
  * api node need specific license

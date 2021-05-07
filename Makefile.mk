@@ -20,6 +20,7 @@ COMPOSE_PROJECT_NAME ?= latelier
 DSS_VERSION ?= 8.0.2
 DKUMONITOR_VERSION ?= 0.0.5
 VERTICA_VERSION ?= 10.1.1-0
+MYSQL_VERSION ?= 8.0.24
 
 #
 # NODETYPE=design automation api apideployer
@@ -68,9 +69,6 @@ API_NODE               ?= localhost:${API_PORT}
 DKUMONITOR_DATADIR           ?= ./data-dkumonitor
 DKUMONITOR_PORT   ?= 27600
 DKUMONITOR_NODE               ?= localhost:${DKUMONITOR_PORT}
-#
-# vertica
-#
 
 #
 # docker-compose options

@@ -2,8 +2,8 @@
 set -x
 
 DSS_INSTALLDIR="/home/dataiku/dataiku-dss-$DSS_VERSION"
-# add vertica driver
 mkdir -p drivers/jdbc
+# add vertica driver
 if [ -n "$VERTICA_VERSION" ]; then
  ( cd drivers/jdbc
  curl -sLO https://www.vertica.com/client_drivers/10.1.x/${VERTICA_VERSION}/vertica-jdbc-${VERTICA_VERSION}.jar
@@ -11,6 +11,17 @@ if [ -n "$VERTICA_VERSION" ]; then
  grep vertica-jdbc-${VERTICA_VERSION}.jar ${VERTICA_VERSION}_sha1sum.txt | sha1sum -c
  ) || exit $?
 fi
+# add mysql driver
+if [ -n "$MYSQL_VERSION" ]; then
+ ( cd drivers/jdbc
+ MYSQL_PKG=mysql-connector-java-${MYSQL_VERSION}
+ curl -sOL https://dev.mysql.com/get/Downloads/Connector-J/${MYSQL_PKG}.tar.gz \
+   && tar -zxvf $MYSQL_PKG.tar.gz $MYSQL_PKG/$MYSQL_PKG.jar \
+   && mv  $MYSQL_PKG/$MYSQL_PKG.jar $MYSQL_PKG.jar \
+   && rm -rf $MYSQL_PKG $MYSQL_PKG.tar.gz
+ ) || exit $?
+fi
+
 
 # add python requirements
 if [ -f "requirements.txt" -a -s "requirements.txt" ]; then
