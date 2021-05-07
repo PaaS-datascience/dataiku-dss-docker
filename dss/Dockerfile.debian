@@ -1,6 +1,7 @@
 FROM debian:buster
 ARG DSS_VERSION
 
+ARG DSS_VERSION=${DSS_VERSION:-8.0.2}
 ENV DSS_VERSION="${DSS_VERSION}" \
     DSS_DATADIR="/home/dataiku/dss" \
     DSS_PORT=10000
@@ -10,8 +11,6 @@ RUN useradd dataiku -G sudo \
     && chown -Rh dataiku:dataiku /home/dataiku ${DSS_DATADIR}
 
 ARG MIRROR_DEBIAN
-ARG PYPI_URL
-ARG PYPI_HOST
 
 # System dependencies
 # Package custom
@@ -76,11 +75,25 @@ EXPOSE $DSS_PORT
 CMD [ "/home/dataiku/run.sh" ]
 
 ENV DSS_INSTALLER_ARGS $DSS_INSTALLER_ARGS
+# Add dkumonitor
 ENV GRAPHITE_HOST=$GRAPHITE_HOST \
     GRAPHITE_PORT=$GRAPHITE_PORT
 #   add DSS_INSTALLER_ARGS dss entrypoint run.sh
+# Add vertica
+ARG VERTICA_VERSION=${VERTICA_VERSION:-10.1.1-0}
+ENV VERTICA_VERSION=${VERTICA_VERSION}
+# Add mysql
+ARG MYSQL_VERSION=${MYSQL_VERSION:-8.0.24}
+ENV MYSQL_VERSION=${MYSQL_VERSION}
+
+# Add python requirements
+ARG PYPI_URL
+ARG PYPI_HOST
+
 USER root
 COPY build.sh .
+COPY postinstall.sh .
+COPY requirements.txt .
 RUN set -e ; bash build.sh && rm -rf build.sh
 
 USER dataiku

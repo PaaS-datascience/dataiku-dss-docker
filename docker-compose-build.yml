@@ -9,6 +9,8 @@ services:
         - https_proxy=$https_proxy
         - no_proxy=$no_proxy
         - DSS_VERSION
+        - VERTICA_VERSION
+        - MYSQL_VERSION
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
   build_dss_debian:
     build:
@@ -19,8 +21,9 @@ services:
         - https_proxy=$https_proxy
         - no_proxy=$no_proxy
         - MIRROR_DEBIAN
-        - dssVersion
         - DSS_VERSION
+        - VERTICA_VERSION
+        - MYSQL_VERSION
     image: ${COMPOSE_PROJECT_NAME:-latelier}_dataiku_dss:${DSS_VERSION:-latest}
   build_dkumonitor:
     build:
