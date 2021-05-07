@@ -1,0 +1,26 @@
+version: '3.5'
+
+networks:
+  dss-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+
+services:
+  mysql:
+    image: mysql:${MYSQL_VERSION:-8.0.24}
+    container_name: ${COMPOSE_PROJECT_NAME}_db_mysql
+    networks:
+      - dss-network
+    volumes:
+      - ${MYSQL_DATADIR:-./data-db-mysql}:/var/lib/mysql
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - no_proxy=${no_proxy},dkumonitor
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-changeme}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-dss}
+      - MYSQL_USER=${MYSQL_USER:-dssuser}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-dsschangeme}
+    ports:
+      - ${MYSQL_PORT:-3306}:3306

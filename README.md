@@ -15,8 +15,9 @@ Added Features:
   + INSTALL_SIZE per services (big, medium, small)
   + license path per services
 * auto register dss nodes in dkumonitor
-* install python pip requirements for offline install at runtime (python3.6)
-* install jdbc verticat driver
+* install python pip requirements for offline install at runtime (default: python2.7)
+* install jdbc driver (vertica,mysql)
+* provide sample db (vertica,mysql) to test connections
 
 Sources:
 * [official docker image dataiku/dss](https://github.com/dataiku/dataiku-tools/tree/master/dss-docker)
@@ -26,10 +27,12 @@ Sources:
 Versions (from `Makefile.mk`):
 | Image | Version | Comment | 
 | --- | --- | --- |
-| dataiku/dss | 8.0.2  | official docker dss is 8.0.2, but last software is 8.0.7 or 9.0.2 |
+| dataiku/dss | 8.0.2 | official docker dss is 8.0.2 |
+| debian dataiku/dss | >= 8.0.2 | debian docker dataiku/dss support 8.0.2, and last version is 8.0.7 or 9.0.2 |
 | dkumonitor| 0.0.5  | |
 | jdbc vertica | 10.1.1-0 | |
 | jdbc mysql | 8.0.24 | |
+| mysql | 8.0.24 | |
 
 Notes:
  * api node need specific license
@@ -58,6 +61,7 @@ Notes:
 
 * (opt) create `artifacts` to override default `Makefile.mk` value (ex: COMPOSE_PROJECT_NAME, DESIGN_PORT,...)
 * (opt) create `docker-compose-custom.yml` to override default value (ex: license path file) (see sample)
+* (opt) create `docker-compose-custom-db-XXX.yml` to override default value of `docker-compose-db-XXX.yml`
 
 ## Prereq: Build custom dss image
 Image are  prefixed with `COMPOSE_PROJECT_NAME`_dataiku_dss

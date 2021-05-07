@@ -51,7 +51,9 @@ make down clean-data-dir
 echo "# build image"
 make build-all
 
-echo "# up all services"
+echo "# up db-mysql service"
+make up-db-mysql
+echo "# up all dss services"
 make up-all
 make test-up-design   
 make test-up-dkumonitor
@@ -60,4 +62,5 @@ echo "# test all services"
 test_app "make test-all"
 
 echo "# clean env"
+make down-db-mysql clean-data-dir-db-mysql
 make down clean-data-dir
