@@ -20,9 +20,9 @@ services:
     networks:
       - dss-network
     volumes:
-       - ${DESIGN_DATA_DIR:-./data-design}:/home/dataiku/dss
-       # add custom license
-       #- ./license.json:/home/dataiku/license.json
+      - ${DESIGN_DATA_DIR:-./data-design}:/home/dataiku/dss
+      # add custom license
+      #- ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -38,9 +38,9 @@ services:
     networks:
       - dss-network
     volumes:
-       - ${AUTOMATION_DATA_DIR:-./data-automation}:/home/dataiku/dss
-       # add custom license
-       #- ./license.json:/home/dataiku/license.json
+      - ${AUTOMATION_DATA_DIR:-./data-automation}:/home/dataiku/dss
+      # add custom license
+      #- ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -56,9 +56,9 @@ services:
     networks:
       - dss-network
     volumes:
-       - ${APIDEPLOYER_DATA_DIR:-./data-apideployer}:/home/dataiku/dss
-       # add custom license
-       # - ./license.json:/home/dataiku/license.json
+      - ${APIDEPLOYER_DATA_DIR:-./data-apideployer}:/home/dataiku/dss
+      # add custom license
+      # - ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -74,9 +74,9 @@ services:
     networks:
       - dss-network
     volumes:
-       - ${API_DATA_DIR:-./data-api}:/home/dataiku/dss
-       # add custom license
-       #- ./license.json:/home/dataiku/license.json
+      - ${API_DATA_DIR:-./data-api}:/home/dataiku/dss
+      # add custom license
+      #- ./license.json:/home/dataiku/license.json
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}
@@ -92,7 +92,7 @@ services:
     networks:
       - dss-network
     volumes:
-       - ${DKUMONITOR_DATADIR:-./data-dkumonitor}:/home/dkumonitor/data
+      - ${DKUMONITOR_DATADIR:-./data-dkumonitor}:/home/dkumonitor/data
     environment:
       - http_proxy=${http_proxy}
       - https_proxy=${https_proxy}

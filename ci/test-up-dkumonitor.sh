@@ -6,7 +6,7 @@ set -e
 [ -n "$DEBUG" ] && set -x
 
 basename=$(basename $0)
-container_name=automation
+container_name=dkumonitor
 APP=$COMPOSE_PROJECT_NAME
 DC=docker-compose
 echo "# $basename ${app} ${DSS_VERSION}"
@@ -15,11 +15,11 @@ ret=0
 
 echo "# Test ${APP}-$container_name up"
 set +e
-timeout=120;
+timeout=180;
 test_result=1
 dirname=$(dirname $0)
 until [ "$timeout" -le 0 -o "$test_result" -eq "0" ] ; do
-	${DC} ${DC_DSS_RUN_CONF} exec ${DC_USE_TTY} $container_name curl --retry-max-time 120 --retry-delay 1  --retry 1 --fail -s 127.0.0.1:10002/dip/api/get-configuration
+	${DC} ${DC_DSS_RUN_CONF} exec ${DC_USE_TTY} $container_name curl --retry-max-time 120 --retry-delay 1  --retry 1 --fail -s 127.0.0.1:27602/version | grep '^[0-9]'
 
 	test_result=$?
 	echo "Wait $timeout seconds: ${APP}-$container_name up $test_result";
@@ -33,4 +33,3 @@ if [ "$test_result" -gt "0" ] ; then
 fi
 
 exit $ret
-

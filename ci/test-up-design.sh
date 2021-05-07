@@ -3,6 +3,7 @@
 # test app
 #
 set -e
+[ -n "$DEBUG" ] && set -x
 
 basename=$(basename $0)
 container_name=design
@@ -14,7 +15,7 @@ ret=0
 
 echo "# Test ${APP}-$container_name up"
 set +e
-timeout=120;
+timeout=180;
 test_result=1
 dirname=$(dirname $0)
 until [ "$timeout" -le 0 -o "$test_result" -eq "0" ] ; do
@@ -32,4 +33,3 @@ if [ "$test_result" -gt "0" ] ; then
 fi
 
 exit $ret
-

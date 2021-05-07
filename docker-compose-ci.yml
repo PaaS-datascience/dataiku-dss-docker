@@ -2,23 +2,9 @@ version: '3.5'
 
 services:
   design:
-    volumes:
-       - data-design:/home/dataiku/dss
     environment:
       - GRAPHITE_HOST=dkumonitor
       - GRAPHITE_PORT=27601
-  automation:
-    volumes:
-       - data-automation:/home/dataiku/dss
-  apideployer:
-    volumes:
-       - data-apideployer:/home/dataiku/dss
-  api:
-    volumes:
-       - data-api:/home/dataiku/dss
-  dkumonitor:
-    volumes:
-       - data-dkumonitor:/home/dataiku/dss
 
 volumes:
   data-design:
@@ -26,4 +12,3 @@ volumes:
   data-apideployer:
   data-api:
   data-dkumonitor:
-
