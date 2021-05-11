@@ -10,6 +10,7 @@ EDITOR=vim
 include /etc/os-release
 
 export PORT=10000
+export DSS_MEM=2g
 export COMPOSE_PROJECT_NAME=latelier
 
 dummy               := $(shell touch artifacts)
@@ -41,7 +42,7 @@ ifeq ("$(wildcard data/lib/jdbc/vertica-jdbc-9.0.1-0.jar)","")
 	@sudo cp jdbc/vertica-jdbc-9.0.1-0.jar data/lib/jdbc/
 endif
 
-network: 
+network:
 	@docker network create latelier 2> /dev/null; true
 
 requirements: up
@@ -53,8 +54,8 @@ ifeq ("$(wildcard docker-compose-custom.yml)","")
 else
 	docker-compose -f docker-compose.yml -f docker-compose-custom.yml up -d
 endif
-	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get update
-	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss apt-get install -y gnupg
+	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss yum update -y
+	docker exec -u root -it ${COMPOSE_PROJECT_NAME}_dss yum install -y gnupg
 
 down:
 	docker-compose down
